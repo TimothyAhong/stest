@@ -14,7 +14,8 @@ const int indicator = 13; //indicator LED on pin 13 (built in) for program ON
 
 
 long average_values[6];
-int average_bases[6] = {26711, 30879, 32406, 32285, 31763, 26711};
+//int average_bases[6] = {26711, 30879, 32406, 32285, 31763, 26711};
+int average_bases[6] = {56,79,82,79,78,65};
 int scale_factor = 500;
 
 int average_length = 5;
@@ -63,15 +64,25 @@ void printCapVals()//function to print out capacitive sensor values
 {
   if(average_counter > average_length) {
     for(int i=0;i<6;i++) {
-      Serial1.print((average_values[i]/average_length - average_bases[i])/scale_factor);
+      Serial1.print((average_values[i]/average_length)/scale_factor - average_bases[i]);
       Serial1.print(',');
       average_values[i] = 0;
     }
+    printPressureVals();
     Serial1.println();
     average_counter = 0;
   } else {
     average_counter++;
   }
+}
+
+void printPressureVals()
+{
+    Serial1.print(analogRead(23));
+    Serial1.print(',');
+    Serial1.print(analogRead(22));
+    Serial1.print(',');
+    Serial1.print(analogRead(21));
 }
 
 void autoCalibrateOff()//function to turn autocalibration OFF. The values were obtained from the library documentation
