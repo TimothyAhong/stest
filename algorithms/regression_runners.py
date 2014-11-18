@@ -17,6 +17,7 @@ class LinearRegressionRunner(BaseRegressionRunner):
         clf = linear_model.LinearRegression()
         regression_details = {
             'stabilized_caps': [],
+            'intercepts': [],
             'slopes': []
         }
         for y in ys:
@@ -25,6 +26,7 @@ class LinearRegressionRunner(BaseRegressionRunner):
             regression_details['stabilized_caps'].append(self._stabilize_cap_sensors(clf.coef_, y, xs))
             #slope array of the form [cap_sensor_number][regression_slopes]
             regression_details['slopes'].append(clf.coef_)
+            regression_details['intercepts'].append(clf.intercept_) #TODO currently not used
         return regression_details
 
     def _stabilize_cap_sensors(self, coefs, y, xs):
@@ -32,5 +34,5 @@ class LinearRegressionRunner(BaseRegressionRunner):
         #return a new set for y with modified values
         for index, cap_value in enumerate(y):
             sensor_values = [x[index] for x in xs]
-            stabilized_caps.append(cap_value - numpy.dot(coefs,sensor_values))
+            stabilized_caps.append(cap_value - numpy.dot(coefs, sensor_values))
         return stabilized_caps
