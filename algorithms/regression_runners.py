@@ -20,11 +20,12 @@ class LinearRegressionRunner(BaseRegressionRunner):
             'slopes': []
         }
         for y in ys:
-            clf.fit(xs, y)
+            clf.fit(zip(*xs), y)
             #stabilized cap array of the form [cap_sensor_number][stabilized_cap_list]
             regression_details['stabilized_caps'].append(self._stabilize_cap_sensors(clf.coef_, y, xs))
             #slope array of the form [cap_sensor_number][regression_slopes]
             regression_details['slopes'].append(clf.coef_)
+        return regression_details
 
     def _stabilize_cap_sensors(self, coefs, y, xs):
         stabilized_caps = []
