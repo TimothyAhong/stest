@@ -4,7 +4,7 @@ import re
 
 #test
 def extract_cap_values(data_parameters, data_file):
-    return data_file[:_num_cap_values(data_parameters) - 1]
+    return data_file[:_num_cap_values(data_parameters)]
 
 
 def extract_other_sensors(data_parameters, data_file):

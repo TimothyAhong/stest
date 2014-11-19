@@ -52,7 +52,7 @@ def _build_data_file_names(volumes):
     data_file_names = []
     for volume in volumes:
         file_template = str(volume) + "_{0}.csv"
-        data_file_names.append(file_template.format("stand"))
-        data_file_names.append(file_template.format("sit"))
+        data_file_names.append(file_template.format("standing"))
+        data_file_names.append(file_template.format("sitting"))
         data_file_names.append(file_template.format("lying"))
     return data_file_names
