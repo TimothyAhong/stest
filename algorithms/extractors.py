@@ -1,7 +1,6 @@
 __author__ = 'timothyahong'
 import re
 
-
 #test
 def extract_cap_values(data_parameters, data_file):
     return data_file[:_num_cap_values(data_parameters)]

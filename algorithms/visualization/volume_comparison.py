@@ -1,6 +1,5 @@
 __author__ = 'timothyahong'
 import numpy
-import re
 from extractors import mode_from_filename, volume_from_filename
 
 volume_comparison_headers = ["actual", "max", "min", "average", "mode"]
