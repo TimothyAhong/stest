@@ -14,9 +14,10 @@ class SimpleVolumeEstimator(BaseVolumeEstimator):
     def _determine_volume(self, cap_value_row):
         volume = 0
         for value in cap_value_row:
-            #simple linear mat up to 100ml
-            if value < 10:
-                volume += 100*(float(value)/10)
+            #simple quadratic map to 10 and above 10 it counts for the full amount
+            value = abs(value)
+            if value < 6:
+                volume += 50*((float(value)/7)**4)
             else:
-                volume += 100
+                volume += 50
         return int(volume)
