@@ -10,7 +10,7 @@ from csv_helpers import array_to_csv
 stabilizer = LinearStabilizer()
 regression_runner = LinearRegressionRunner()
 volume_estimator = SimpleVolumeEstimator()
-data = load_experiment_folder('/Users/timothyahong/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.5/nov17_danny/wearing')
+data = load_experiment_folder('/Users/timothyahong/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.6/nov19_danny')
 
 run_pressure_sensor_regression(
     data_files=data['files'],
