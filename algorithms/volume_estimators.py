@@ -15,8 +15,9 @@ class SimpleVolumeEstimator(BaseVolumeEstimator):
         volume = 0
         for value in cap_value_row:
             #simple quadratic map to 10 and above 10 it counts for the full amount
-            if value < 10:
-                volume += 130*((float(value)/10)**2)
+            value = abs(value)
+            if value < 3:
+                volume += 75*((float(value)/3)**4)
             else:
-                volume += 130
+                volume += 80
         return int(volume)
