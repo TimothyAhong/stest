@@ -1,6 +1,7 @@
 __author__ = 'timothyahong'
 import numpy
-import csv
+from csv_helpers import array_to_csv
+
 
 def print_results(regression_results, parameters, data_files, volume_results, stabilized_volume_results):
     #TODO determine the differenes and changes in regression variables
@@ -27,8 +28,8 @@ def _print_volume_results(data_files, parameters, volume_results):
 
 
 def _output_to_csv(filename, parameters, sensor_data, volume_result):
-    with open(filename, 'w') as f:
-        writer = csv.writer(f)
-        writer.writerow(["Volume"] + parameters["Format"])
-        for index, volume in enumerate(volume_result):
-            writer.writerow([volume] + [sensor_value_column[index] for sensor_value_column in sensor_data])
+    header_row = ["Volume"] + parameters["Format"]
+    rows = []
+    for index, volume in enumerate(volume_result):
+        rows.append([volume] + [sensor_value_column[index] for sensor_value_column in sensor_data])
+    array_to_csv(filename, header_row, rows)

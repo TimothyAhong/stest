@@ -17,3 +17,13 @@ def _num_cap_values(data_parameters):
         if re.match('\cap', sensor_name) is not None:
             count += 1
     return count
+
+
+def mode_from_filename(data_file_name):
+    match = re.search("_([a-zA-Z]+)", data_file_name)
+    return match.group(0)
+
+
+def volume_from_filename(data_file_name):
+    match = re.search("^[0-9]+", data_file_name)
+    return int(match.group(0))
