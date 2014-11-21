@@ -1,4 +1,5 @@
 __author__ = 'timothyahong'
+import numpy
 
 
 class BaseStabilizer:
@@ -17,3 +18,10 @@ class LinearStabilizer(BaseStabilizer):
         ]
         #for other_sensor_value in other_sensor_values:
         return regression_xs
+
+
+class BinxLinearStabilizer(LinearStabilizer):
+    def generate_inputs(self, cap_values, other_sensor_values):
+        linear_xs = LinearStabilizer.generate_inputs(self,cap_values, other_sensor_values)
+        linear_xs.append(numpy.multiply(other_sensor_values[0],other_sensor_values[1]))
+        return linear_xs

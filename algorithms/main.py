@@ -1,5 +1,5 @@
 __author__ = 'timothyahong'
-from stabilizers import LinearStabilizer
+from stabilizers import BinxLinearStabilizer
 from regression_runners import LinearRegressionRunner
 from volume_estimators import SimpleVolumeEstimator
 from experiment_parsers import load_experiment_folder, load_output_folder
@@ -7,7 +7,8 @@ from pressure_sensor_regression import run_pressure_sensor_regression
 from visualization.volume_comparison import generate_volume_comparison, volume_comparison_headers
 from csv_helpers import array_to_csv
 
-stabilizer = LinearStabilizer()
+#stabilizer = LinearStabilizer()
+stabilizer = BinxLinearStabilizer()
 regression_runner = LinearRegressionRunner()
 volume_estimator = SimpleVolumeEstimator()
 data = load_experiment_folder('/Users/timothyahong/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.6/nov19_danny/withOpAmp')
