@@ -17,3 +17,12 @@ class LinearStabilizer(BaseStabilizer):
         ]
         #for other_sensor_value in other_sensor_values:
         return regression_xs
+
+
+class SigmoidAndLinearStabilizer(LinearStabilizer):
+    def generate_inputs(self, cap_values, other_sensor_values):
+        linear_xs = super(SigmoidAndLinearStabilizer, self).generate_inputs(cap_values, other_sensor_values)
+        linear_xs.append([
+
+        ])
+        return linear_xs
