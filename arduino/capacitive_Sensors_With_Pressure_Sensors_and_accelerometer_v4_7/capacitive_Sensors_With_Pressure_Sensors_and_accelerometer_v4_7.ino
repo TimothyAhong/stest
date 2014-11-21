@@ -159,9 +159,6 @@ void printAccel(int x)
 }
 void printCapVals(int t)//function to print out capacitive sensor values
 {
-  
-  //Serial1.print("Caps (12,10,8,11,9):");
-  //Serial1.print("\t");
   //cap set 1
   Serial1.print(c7);
   Serial1.print("\t"); 
@@ -192,8 +189,6 @@ void printCapVals(int t)//function to print out capacitive sensor values
 
 void printPresVals(int t)//function to print out pressure sensor values
 {
-  //Serial1.print("Pres ( R L - A,8,7,9,4,6,5):");
-  //Serial1.print("\t");
   Serial1.print(pA7); 
   Serial1.print("\t");
   Serial1.print(pA8); 
@@ -261,17 +256,6 @@ void hardcodeDown(int div,int sub)
     c2 = c2 - c2Bias;
     c12 = c12 - c12Bias;
   }
-  /*
-  c12 = stayPositive(c12 - c12Bias);
-  c11 = stayPositive(c11 - c11Bias);
-  c10 = stayPositive(c10 - c10Bias);
-  c9 = stayPositive(c9 - c9Bias);
-  c8 = stayPositive(c8 - c8Bias);
-  c7 = stayPositive(c7 - c7Bias);
-  c6 = stayPositive(c6 - c6Bias);
-  c5 = stayPositive(c5 - c5Bias);
-  c2 = stayPositive(c2 - c2Bias);
-  */
 }
 
 long stayPositive(long in)
