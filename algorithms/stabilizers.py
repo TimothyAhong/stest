@@ -1,4 +1,5 @@
 __author__ = 'timothyahong'
+import numpy
 
 
 class BaseStabilizer:
@@ -19,10 +20,8 @@ class LinearStabilizer(BaseStabilizer):
         return regression_xs
 
 
-class SigmoidAndLinearStabilizer(LinearStabilizer):
+class BinxLinearStabilizer(LinearStabilizer):
     def generate_inputs(self, cap_values, other_sensor_values):
-        linear_xs = super(SigmoidAndLinearStabilizer, self).generate_inputs(cap_values, other_sensor_values)
-        linear_xs.append([
-
-        ])
+        linear_xs = LinearStabilizer.generate_inputs(self,cap_values, other_sensor_values)
+        linear_xs.append(numpy.multiply(other_sensor_values[0],other_sensor_values[1]))
         return linear_xs
