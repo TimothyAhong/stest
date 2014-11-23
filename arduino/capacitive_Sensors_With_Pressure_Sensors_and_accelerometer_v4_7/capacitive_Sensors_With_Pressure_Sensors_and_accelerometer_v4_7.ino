@@ -30,18 +30,20 @@ const int aA15pin = A15;//accelerometer Z-axis on pin A15
 
 const int indicator = 13; //indicator LED on pin 13 (built in) for program ON 
 //7,10,8,11,9
-const long c7Bias = 11;//1
-const long c8Bias = 15;//3
-const long c9Bias = 15;//5
-const long c10Bias = 13;//2
-const long c11Bias = 16;//4
+const long c7Bias = 128;//1
+const long c8Bias = 177;//3
+const long c9Bias = 177;//5
+const long c10Bias = 150;//2
+const long c11Bias = 180;//4
 
 //6,5,17,2,12
-const long c12Bias = 14;//5
-const long c2Bias = 15;//4
-const long c5Bias = 15;//2
-const long c6Bias = 11;//1
-const long c17Bias = 16;//3
+const long c12Bias = 166;//5
+const long c2Bias = 175;//4
+const long c5Bias = 168;//2
+const long c6Bias = 127;//1
+const long c17Bias = 173;//3
+
+const long scaled = 1000;
 
 long c12 = 0; //variable to hold capacitive sensor reading on pin 12
 long c11 = 0; //variable to hold capacitive sensor reading on pin 11
@@ -70,71 +72,50 @@ int accZ = 0; //variable to hold accelerometer z-axis
 void setup()
 {
   Serial1.begin(9600); //Start up Serial1 (not Serial which is USB) which goes to Xbee
-  
-  pinMode(indicator,OUTPUT);
-  digitalWrite(indicator,HIGH);
+
+  pinMode(indicator,OUTPUT);//set the led as an output
+  digitalWrite(indicator,HIGH); //indicator LED turns ON to let us know that the code is running and was loaded properly
   //delay(10);
   //digitalWrite(indicator,LOW);
   autoCalibrateOff(); //Turn the autocalibrate OFF so that raw data is kept with no calibration on restart 
-  //analogReference(INTERNAL);
- 
   delay(100);
 }
 
 void loop()
 {
-  readCaps(1,100,1); //Read capacitive sensors 
+  readCaps(100,1,2,2); //Read capacitive sensors; (resolution of sensor reading,hardcode down or not,precision,zeroed or not) 
   readPres(); //Read pressure sensors
   readAccel(); //read the accelerometer
-  
+
   printCapVals(0); //Print values read from capacitive sensors. 0 allows for values to be continued to be printed on same line.
   printPresVals(0);//Print values read from pressure sensors. 1 gives a new line
-  printAccel(1);
+  printAccel(1); //Print values read from the accelerometer
   delay(30);
 }
 
-void readAccel()
+void readAccel()//function to read and store the acceleromter data from sensor
 {
-  accX = analogRead(aA17pin);
+  accX = analogRead(aA17pin); //read and store accelrometer axis in proper variables
   accY = analogRead(aA16pin);
   accZ = analogRead(aA15pin);
 }
 
-void readCaps(int input, int resolution, int x)//function to read in capacitive sensor values
-{
-  long start = millis();
-
-  c12 = cs_c12.capacitiveSensorRaw(resolution); 
-  c11 = cs_c11.capacitiveSensorRaw(resolution);
-  c10 = cs_c10.capacitiveSensorRaw(resolution);
-  c9 = cs_c9.capacitiveSensorRaw(resolution);
-  c8 = cs_c8.capacitiveSensorRaw(resolution);
-  c7 = cs_c7.capacitiveSensorRaw(resolution);
-  c6 = cs_c6.capacitiveSensorRaw(resolution);
-  c5 = cs_c5.capacitiveSensorRaw(resolution);
-  c2 = cs_c2.capacitiveSensorRaw(resolution);
-  c17 = cs_c17.capacitiveSensorRaw(resolution);
-
-  if(input == 1)
-    hardcodeDown(1000,x);  
-}
-
 void readPres()//function to read in pressure sensor values
 {
-  pA9 = analogRead(pA9pin);//analog input 
+  pA9 = analogRead(pA9pin);//read and store analog input /pressure sensors
   pA8 = analogRead(pA8pin);
   pA7 = analogRead(pA7pin);
   pA6 = analogRead(pA6pin);
   pA5 = analogRead(pA5pin);
   pA4 = analogRead(pA4pin);
-  
+
   pA2 = analogRead(pA2pin);
   pA1 = analogRead(pA1pin);
-  
-  presMap();
+
+  presMap();//call the remapping function
 }
 
-void presMap()
+void presMap()//function to map the pressure sensors from 0 - 1023 instead of the 1023-0 because it's pulled up to 5V
 {  
   pA9 = map(pA9,1023,0,0, 1023);
   pA8 = map(pA8,1023,0,0, 1023);
@@ -144,14 +125,109 @@ void presMap()
   pA4 = map(pA4,1023,0,0, 1023);
   pA2 = map(pA2,1023,0,0, 1023);
   pA1 = map(pA1,1023,0,0, 1023);
-  
+
 }
+
+//function to read in capacitive sensor values
+void readCaps(int resolution,int input, int precision, int zero) //(resolution of sensor reading,hardcode down or not,precision,zeroed or not)
+{
+  long start = millis(); //start the timing required for the cap sesnor library to calculate the capcitance level based on timing from 0 - 5V
+  int bias;
+  c12 = cs_c12.capacitiveSensorRaw(resolution); //read and store the raw sensor values with the desired resolution
+  c11 = cs_c11.capacitiveSensorRaw(resolution);
+  c10 = cs_c10.capacitiveSensorRaw(resolution);
+  c9 = cs_c9.capacitiveSensorRaw(resolution);
+  c8 = cs_c8.capacitiveSensorRaw(resolution);
+  c7 = cs_c7.capacitiveSensorRaw(resolution);
+  c6 = cs_c6.capacitiveSensorRaw(resolution);
+  c5 = cs_c5.capacitiveSensorRaw(resolution);
+  c2 = cs_c2.capacitiveSensorRaw(resolution);
+  c17 = cs_c17.capacitiveSensorRaw(resolution);
+  
+  if(zero == 0)
+    zero = 0;
+  else
+    zero = precision;  
+    
+  if(input == 1)//call scaling down function based on input
+  {
+
+    if(precision == 1) //will tell scaling function to give single to double integer response
+      hardcodeDown(scaled,zero);
+    if(precision == 2)//will tell scaling function to give double to triple integer response
+      hardcodeDown(scaled/10,zero); 
+  }
+}
+
+//routine to scale down raw sensor readings
+void hardcodeDown(int div,int zero) //(how much to divide sensor raw values by, what type of zeroing is it)
+{//7,10,8,11,9
+  c7 = c7/div;
+  c10 = c10/div;  
+  c8 = c8/div;
+  c11 = c11/div;
+  c9 = c9/div;
+
+  //6,5,17,2,12
+  c6 = c6/div;
+  c5 = c5/div;  
+  c17 = c17/div;
+  c2 = c2/div;
+  c12 = c12/div;
+
+  if(zero == 1)
+  {
+    c7 = c7 - floor(c7Bias/10);
+    c10 = c10 - floor(c10Bias/10);
+    c11 = c11 - floor(c11Bias/10);
+    c9 = c9 - floor(c9Bias/10);
+
+    c6 = c6 - floor(c6Bias/10);
+    c5 = c5 - floor(c5Bias/10);
+    c17 = c17 - floor(c17Bias/10);
+    c2 = c2 - floor(c2Bias/10);
+    c12 = c12 - floor(c12Bias/10);
+  }
+  if(zero == 2)
+  {
+    c7 = c7 - c7Bias;
+    c10 = c10 - c10Bias;
+    c8 = c8 - c8Bias;
+    c11 = c11 - c11Bias;
+    c9 = c9 - c9Bias;
+
+    c6 = c6 - c6Bias;
+    c5 = c5 - c5Bias;
+    c17 = c17 - c17Bias;
+    c2 = c2 - c2Bias;
+    c12 = c12 - c12Bias;
+  }
+}
+
+void autoCalibrateOff()//function to turn autocalibration OFF. The values were obtained from the library documentation
+{
+  cs_c12.set_CS_AutocaL_Millis(0xFFFFFFFF);
+  cs_c11.set_CS_AutocaL_Millis(0xFFFFFFFF);
+  cs_c10.set_CS_AutocaL_Millis(0xFFFFFFFF);
+  cs_c9.set_CS_AutocaL_Millis(0xFFFFFFFF);
+  cs_c8.set_CS_AutocaL_Millis(0xFFFFFFFF);
+  cs_c7.set_CS_AutocaL_Millis(0xFFFFFFFF);
+  cs_c6.set_CS_AutocaL_Millis(0xFFFFFFFF);
+  cs_c5.set_CS_AutocaL_Millis(0xFFFFFFFF);
+  cs_c2.set_CS_AutocaL_Millis(0xFFFFFFFF);
+  cs_c17.set_CS_AutocaL_Millis(0xFFFFFFFF);
+}
+
+//printing routines
+
 void printAccel(int x)
 {
-  Serial1.print(accX); Serial1.print("\t");
-  Serial1.print(accY); Serial1.print("\t");
+  Serial1.print(accX); 
+  Serial1.print("\t");
+  Serial1.print(accY); 
+  Serial1.print("\t");
   Serial1.print(accZ); 
-  
+
   if(x == 1)  
     Serial1.println();
   else
@@ -180,7 +256,7 @@ void printCapVals(int t)//function to print out capacitive sensor values
   Serial1.print(c2);
   Serial1.print("\t");
   Serial1.print(c12);
-  
+
   if(t == 0) //bias to give new line or allow other printing on same line
     Serial1.print("\t");
   else
@@ -204,7 +280,7 @@ void printPresVals(int t)//function to print out pressure sensor values
   Serial1.print(pA6);
   Serial1.print("\t"); 
   Serial1.print(pA1);   
-  
+
   if(t == 0)//bias to give new line or allow other printing on same line
     Serial1.print("\t");
   else
@@ -212,59 +288,7 @@ void printPresVals(int t)//function to print out pressure sensor values
 }
 
 
-void autoCalibrateOff(
-)//function to turn autocalibration OFF. The values were obtained from the library documentation
-{
-  cs_c12.set_CS_AutocaL_Millis(0xFFFFFFFF);
-  cs_c11.set_CS_AutocaL_Millis(0xFFFFFFFF);
-  cs_c10.set_CS_AutocaL_Millis(0xFFFFFFFF);
-  cs_c9.set_CS_AutocaL_Millis(0xFFFFFFFF);
-  cs_c8.set_CS_AutocaL_Millis(0xFFFFFFFF);
-  cs_c7.set_CS_AutocaL_Millis(0xFFFFFFFF);
-  cs_c6.set_CS_AutocaL_Millis(0xFFFFFFFF);
-  cs_c5.set_CS_AutocaL_Millis(0xFFFFFFFF);
-  cs_c2.set_CS_AutocaL_Millis(0xFFFFFFFF);
-  cs_c17.set_CS_AutocaL_Millis(0xFFFFFFFF);
-}
 
-void hardcodeDown(int div,int sub)
-{//7,10,8,11,9
-  c7 = c7/div;
-  c10 = c10/div;  
-  c8 = c8/div;
-  c11 = c11/div;
-  c9 = c9/div;
-  
-  //6,5,17,2,12
-  c6 = c6/div;
-  c5 = c5/div;  
-  c17 = c17/div;
-  c2 = c2/div;
-  c12 = c12/div;
-  
-  if(sub == 1)
-  {
-    c7 = c7 - c7Bias;
-    c10 = c10 - c10Bias;
-    c8 = c8 - c8Bias;
-    c11 = c11 - c11Bias;
-    c9 = c9 - c9Bias;
-    
-    c6 = c6 - c6Bias;
-    c5 = c5 - c5Bias;
-    c17 = c17 - c17Bias;
-    c2 = c2 - c2Bias;
-    c12 = c12 - c12Bias;
-  }
-}
-
-long stayPositive(long in)
-{
-  if(in<0)
-    return 0;
-  else 
-    return in;  
-}
 
 
 
