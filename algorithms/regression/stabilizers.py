@@ -1,6 +1,6 @@
 __author__ = 'timothyahong'
 import numpy
-from math_helpers import sigmoid_of_all_values_with_all_other_values
+from math_helpers import sigmoid_of_all_values_with_all_other_values, sigmoid_dataset
 
 
 class BaseStabilizer:
@@ -26,6 +26,30 @@ class LinearStabilizer(BaseStabilizer):
         ]
 
 
+class SigmoidStabilizer(LinearStabilizer):
+    def __init__(self):
+        pass
+
+    def generate_inputs(self, cap_values, other_sensor_values):
+
+        linear_xs = LinearStabilizer.generate_inputs(self, cap_values, other_sensor_values)
+
+        #attempt to cover 2 ranges
+        start = 100
+        end = 300
+        first_regression_pass = [
+            sigmoid_dataset(other_sensor_value, start, end) for other_sensor_value in other_sensor_values
+        ]
+
+        #attempt to cover 2 ranges
+        start = 400
+        end = 600
+        second_regression_pass = [
+            sigmoid_dataset(other_sensor_value, start, end) for other_sensor_value in other_sensor_values
+        ]
+
+        return first_regression_pass + second_regression_pass + linear_xs
+
 class BinxLinearStabilizer(LinearStabilizer):
     def generate_inputs(self, cap_values, other_sensor_values):
         linear_xs = LinearStabilizer.generate_inputs(self,cap_values, other_sensor_values)
@@ -33,7 +57,7 @@ class BinxLinearStabilizer(LinearStabilizer):
         return linear_xs
 
 
-class SigmoidStabilizer(LinearStabilizer):
+class SigmoidAndLinearStabilizer(LinearStabilizer):
     def generate_inputs(self, cap_values, other_sensor_values):
         linear_xs = LinearStabilizer.generate_inputs(self, cap_values, other_sensor_values)
         sigmoid_xs = sigmoid_of_all_values_with_all_other_values(other_sensor_values, 300, 500)
