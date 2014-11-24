@@ -15,7 +15,7 @@ class LinearStabilizer(BaseStabilizer):
 
     def generate_inputs(self, cap_values, other_sensor_values):
         regression_xs = [
-            other_sensor_value for other_sensor_value in other_sensor_values
+            list(other_sensor_value_list) for other_sensor_value_list in other_sensor_values
         ]
         #for other_sensor_value in other_sensor_values:
         return regression_xs

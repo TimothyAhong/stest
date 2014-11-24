@@ -10,7 +10,7 @@ from visualization.volume_comparison import generate_volume_comparison, volume_c
 from visualization.graph_wrappers import plot_volume_comparison
 from utilities.csv_helpers import array_to_csv
 
-stabilizer = LinearStabilizer()
+stabilizer = SigmoidStabilizer()
 #stabilizer = BinxLinearStabilizer()
 regression_runner = LinearRegressionRunner()
 volume_estimator = SimpleVolumeEstimator()
@@ -33,8 +33,8 @@ run_volume_estimation_regression(
     volume_estimator=volume_estimator,
     regression_runner=regression_runner
 )
-'''
 
+'''
 run_pre_and_post_regression(
     data_files=data['files'],
     data_parameters=data['parameters'],
@@ -42,6 +42,7 @@ run_pre_and_post_regression(
     volume_estimator=volume_estimator,
     regression_runner=regression_runner
 )
+
 
 output_data = load_output_folder(data['parameters'], 'output')
 volume_comparison_output = generate_volume_comparison(output_data['files'])
