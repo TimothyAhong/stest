@@ -11,12 +11,12 @@ def print_results(regression_results, parameters, data_files, volume_results, st
         print(regression_result['slopes'])
     print("\nUNSTABILIZED VOLUME RESULTS\n")
     #TODO this file gets overwritter but we want to print the data
-    _print_volume_results(data_files, parameters, volume_results, regression_results)
+    #print_volume_results(data_files, parameters, volume_results, regression_results)
     print("\nSTABILIZED VOLUME RESULTS\n")
-    _print_volume_results(data_files, parameters, stabilized_volume_results, regression_results)
+    print_volume_results(data_files, parameters, stabilized_volume_results, regression_results)
 
 
-def _print_volume_results(data_files, parameters, volume_results, regression_results):
+def print_volume_results(data_files, parameters, volume_results, regression_results):
     for data_file_name in sorted(volume_results):
         volume_result = volume_results[data_file_name]
         data_file = data_files[data_file_name]
