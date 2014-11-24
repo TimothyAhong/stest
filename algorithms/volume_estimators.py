@@ -16,13 +16,15 @@ class SimpleVolumeEstimator(BaseVolumeEstimator):
         for value in cap_value_row:
             #simple quadratic map to 10 and above 10 it counts for the full amount
             value = abs(value)
+            value = float(value)
             saturation_value = 6
             if 0 < value < saturation_value:
                 volume += 75*((float(value)/saturation_value)**2)
                 volume += 0
-            else:
+            elif value > 0:
                 volume += 75
-        return int(volume)
+        adjusted_volume = volume - 50
+        return adjusted_volume
 
     def _determine_volume_without_op_amp(self, cap_value_row):
         volume = 0

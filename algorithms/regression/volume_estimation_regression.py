@@ -40,4 +40,5 @@ def run_pre_and_post_regression(data_files, data_parameters, stabilizer, volume_
 
             regression_results_post[data_file_name] = regression_runner.run([stabilized_volume_results[data_file_name]], regression_xs)
             volume_results[data_file_name] = regression_results_post[data_file_name]['stabilized_caps'][0]
+    #TODO need to print out the proper volume output files for debugging
     print_volume_results(data_files, data_parameters, volume_results, regression_results_post)
