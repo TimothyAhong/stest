@@ -13,7 +13,7 @@ class LinearRegressionRunner(BaseRegressionRunner):
         pass
 
     def run(self, ys, xs):
-        #clf = linear_model.LinearRegression(fit_intercept=False), dont know what the point of this is
+        #clf = linear_model.LinearRegression(fit_intercept=False), #dont know what the point of this is
         clf = linear_model.LinearRegression()
         regression_details = {
             'stabilized_caps': [],

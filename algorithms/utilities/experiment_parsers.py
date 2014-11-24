@@ -1,6 +1,7 @@
 __author__ = 'timothyahong'
 import csv
 import os
+from regression.math_helpers import transpose
 
 
 #load the data directly from an experiment
@@ -51,11 +52,7 @@ def _load_file(folder_path, data_file_name):
                     row_first_file.append([int(el) for el in row])
     else:
         print("FILE {0} COULD NOT BE FOUND".format(file_path))
-    return _transpose(row_first_file)
-
-
-def _transpose(target_arr):
-    return zip(*target_arr)
+    return transpose(row_first_file)
 
 
 def _build_data_file_names(volumes):
