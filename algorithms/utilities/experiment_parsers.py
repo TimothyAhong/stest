@@ -27,8 +27,8 @@ def _load_parameters(folder_path):
     with open('{0}/parameters.csv'.format(folder_path), 'rU') as csvfile:
         csv_reader = csv.reader(csvfile, delimiter=',')
         for row in csv_reader:
-            #take the first colume as they key and the rest as the values
-            parameters[row[0]] = [el for el in row[1:] if el]
+            #take the first column as they key and the rest as the values
+            parameters[row[0].strip()] = [el for el in row[1:] if el]
     return parameters
 
 

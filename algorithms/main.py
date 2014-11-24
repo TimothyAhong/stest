@@ -15,7 +15,8 @@ stabilizer = SigmoidStabilizer()
 regression_runner = LinearRegressionRunner()
 volume_estimator = SimpleVolumeEstimator()
 #data = load_experiment_folder('/Users/Tim/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.7/nov22_danny')
-data = load_experiment_folder('/Users/Tim/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.6/nov19_danny/withOpAmp')
+#data = load_experiment_folder('/Users/Tim/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.6/nov19_danny/withOpAmp')
+data = load_experiment_folder('/Users/Tim/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.7/nov23_danny')
 
 '''
 run_pressure_sensor_regression(
