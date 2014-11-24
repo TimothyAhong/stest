@@ -1,6 +1,8 @@
 __author__ = 'timothyahong'
 import numpy
-from extractors import mode_from_filename, volume_from_filename
+
+from utilities.extractors import mode_from_filename, volume_from_filename
+
 
 volume_comparison_headers = ["actual", "max", "min", "average", "mode"]
 

@@ -25,3 +25,9 @@ class BinxLinearStabilizer(LinearStabilizer):
         linear_xs = LinearStabilizer.generate_inputs(self,cap_values, other_sensor_values)
         linear_xs.append(numpy.multiply(other_sensor_values[0],other_sensor_values[1]))
         return linear_xs
+
+
+class SigmoidStabilizer(LinearStabilizer):
+    def generate_inputs(self, cap_values, other_sensor_values):
+        linear_xs = LinearStabilizer.generate_inputs(self, cap_values, other_sensor_values)
+        

@@ -1,6 +1,6 @@
 __author__ = 'timothyahong'
 import numpy
-from csv_helpers import array_to_csv
+from utilities.csv_helpers import array_to_csv
 
 
 def print_results(regression_results, parameters, data_files, volume_results, stabilized_volume_results):
