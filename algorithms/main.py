@@ -9,14 +9,18 @@ from regression.volume_estimation_regression import run_volume_estimation_regres
 from visualization.volume_comparison import generate_volume_comparison, volume_comparison_headers
 from visualization.graph_wrappers import plot_volume_comparison
 from utilities.csv_helpers import array_to_csv
+from simple_estimator.simple_estimator import SimpleEstimator, run_simple_estimator
 
 stabilizer = SigmoidStabilizer()
 #stabilizer = BinxLinearStabilizer()
 regression_runner = LinearRegressionRunner()
 volume_estimator = SimpleVolumeEstimator()
+
+estimator = SimpleEstimator()
 #data = load_experiment_folder('/Users/Tim/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.7/nov22_danny')
 #data = load_experiment_folder('/Users/Tim/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.6/nov19_danny/withOpAmp')
-data = load_experiment_folder('/Users/Tim/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.7/nov23_danny')
+#data = load_experiment_folder('/Users/Tim/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.7/nov23_danny')
+data = load_experiment_folder('/Users/Tim/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.7/nov24_tim')
 
 '''
 run_pressure_sensor_regression(
@@ -35,7 +39,7 @@ run_volume_estimation_regression(
     regression_runner=regression_runner
 )
 
-'''
+
 run_pre_and_post_regression(
     data_files=data['files'],
     data_parameters=data['parameters'],
@@ -43,6 +47,14 @@ run_pre_and_post_regression(
     volume_estimator=volume_estimator,
     regression_runner=regression_runner
 )
+'''
+
+run_simple_estimator(
+    data_files=data['files'],
+    data_parameters=data['parameters'],
+    estimator=estimator
+)
+
 
 
 output_data = load_output_folder(data['parameters'], 'output')

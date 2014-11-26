@@ -19,10 +19,10 @@ class SimpleVolumeEstimator(BaseVolumeEstimator):
             value = float(value)
             saturation_value = 6
             if 0 < value < saturation_value:
-                volume += 75*((float(value)/saturation_value)**2)
+                volume += 50*((float(value)/saturation_value)**2)
                 volume += 0
             elif value > 0:
-                volume += 75
+                volume += 50
         adjusted_volume = volume - 50
         return adjusted_volume
 

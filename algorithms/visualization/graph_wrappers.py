@@ -1,7 +1,6 @@
 __author__ = 'Tim'
 import matplotlib.pyplot as plt
 
-
 def plot_volume_comparison(headers, volume_comparison_rows):
     x = range(len(volume_comparison_rows))
     for index, header_name in enumerate(headers):
@@ -11,5 +10,5 @@ def plot_volume_comparison(headers, volume_comparison_rows):
                 volume_row[index] for volume_row in volume_comparison_rows
             ]
             plt.plot(x,volume_column, label=header_name)
+    plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,ncol=2, mode="expand", borderaxespad=0.)
     plt.show()
-
