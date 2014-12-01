@@ -56,16 +56,16 @@ const int indicator = 13; //indicator LED on pin 13 (built in) for program ON
  |          Bottom            |
  |____________________________| 
  */
-const long c9Bias = 109;
-const long c11Bias = 121;
-const long c8Bias = 130;
-const long c6Bias = 105;
-const long c10Bias = 128;
-const long c5Bias = 145;
-const long c7Bias = 132;
-const long c17Bias = 153;
-const long c2Bias = 152;
-const long c12Bias = 146;
+const long c9Bias = 107;
+const long c11Bias = 119;
+const long c8Bias = 128;
+const long c6Bias = 102;
+const long c10Bias = 125;
+const long c5Bias = 142;
+const long c7Bias = 130;
+const long c17Bias = 149;
+const long c2Bias = 148;
+const long c12Bias = 140;
 
 const long scaled = 1000;
 
@@ -107,7 +107,7 @@ void setup()
 
 void loop()
 {
-  readCaps(100,1,2,0); //Read capacitive sensors; (resolution of sensor reading,hardcode down or not,precision,zeroed or not) 
+  readCaps(100,1,2,1); //Read capacitive sensors; (resolution of sensor reading,hardcode down or not,precision,zeroed or not) 
   readPres(); //Read pressure sensors
   readAccel(); //read the accelerometer
 
