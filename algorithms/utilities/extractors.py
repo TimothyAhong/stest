@@ -1,7 +1,7 @@
 __author__ = 'timothyahong'
 import re
 
-#test
+
 def extract_cap_values(data_parameters, data_file):
     return data_file[:_num_cap_values(data_parameters)]
 
@@ -10,10 +10,36 @@ def extract_other_sensors(data_parameters, data_file):
     return data_file[_num_cap_values(data_parameters):]
 
 
+def extract_pressure_values(data_parameters, data_file):
+    start = _num_cap_values(data_parameters)
+    end = start + _num_pressure_values(data_parameters)
+    return data_file[start:end]
+
+
+def extract_sensor_value_row(sensors_values, row_number):
+    return [
+        sensor_value[row_number] for sensor_value in sensors_values
+    ]
+
+
+def sensor_row_to_pairs(sensor_row):
+    #TODO assumes event numbers here
+    num_sensors = len(sensor_row)/2
+    return zip(sensor_row[:num_sensors], sensor_row[num_sensors:])
+
+
 def _num_cap_values(data_parameters):
     count = 0
     for sensor_name in data_parameters['Format']:
         if re.match('\cap', sensor_name) is not None:
+            count += 1
+    return count
+
+
+def _num_pressure_values(data_parameters):
+    count = 0
+    for sensor_name in data_parameters['Format']:
+        if re.match('\pressure', sensor_name) is not None:
             count += 1
     return count
 

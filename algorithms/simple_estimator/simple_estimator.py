@@ -32,6 +32,7 @@ def call_with_cap_value_row(fun, cap_values, sensor_data):
         volume_estimates.append(volume_estimate)
     return volume_estimates
 
+
 def generate_value_row(index, values):
     return [
         sensor[index] for sensor in values
