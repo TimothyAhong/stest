@@ -45,6 +45,12 @@ plot_multiple_cap_and_pressure_lines(
 )
 
 '''
+stabilizer = LinearStabilizer()
+#stabilizer = BinxLinearStabilizer()
+regression_runner = LinearRegressionRunner()
+volume_estimator = SimpleVolumeEstimator()
+#data = load_experiment_folder('/Users/Tim/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.6/nov19_danny/withOpAmp')
+data = load_experiment_folder('/Users/Danny/Google Drive/Sensassure/Venture Related/Product/V4 Prototype/Volume Detection/V4.6/nov19_danny/withOpAmp')
 stabilizer = SigmoidStabilizer()
 #stabilizer = BinxLinearStabilizer()
 regression_runner = LinearRegressionRunner()
