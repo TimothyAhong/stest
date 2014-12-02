@@ -273,19 +273,19 @@ void printCapVals(int t)//function to print out capacitive sensor values
 
 void printPresVals(int t)//function to print out pressure sensor values
 {
-  Serial1.print(pA2); 
-  Serial1.print("\t");
   Serial1.print(pA7); 
-  Serial1.print("\t");
-  Serial1.print(pA6); 
   Serial1.print("\t");
   Serial1.print(pA8); 
   Serial1.print("\t");
-  Serial1.print(pA5); 
+  Serial1.print(pA9); 
   Serial1.print("\t");
-  Serial1.print(pA9);
+  Serial1.print(pA2); 
+  Serial1.print("\t");
+  Serial1.print(pA4); 
+  Serial1.print("\t");
+  Serial1.print(pA5);
   Serial1.print("\t"); 
-  Serial1.print(pA4);
+  Serial1.print(pA6);
   Serial1.print("\t"); 
   Serial1.print(pA1);   
 
