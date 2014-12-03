@@ -3,7 +3,7 @@
 //This allowed for less noise spikes to occur
 
 //The capacitive sensors require a send pin which generates the high and low pulses, pin 14
-CapacitiveSensor cs_c12 = CapacitiveSensor(14,12);//capacitive sensor on pin 12 
+CapacitiveSensor cs_c12 = CapacitiveSensor(14,12);//cap acitive sensor on pin 12 
 CapacitiveSensor cs_c11 = CapacitiveSensor(14,11);//capacitive sensor on pin 11 
 CapacitiveSensor cs_c10 = CapacitiveSensor(14,10);//capacitive sensor on pin 10 
 CapacitiveSensor cs_c9 = CapacitiveSensor(14,9);  //capacitive sensor on pin 9
@@ -56,6 +56,8 @@ const int indicator = 13; //indicator LED on pin 13 (built in) for program ON
  |          Bottom            |
  |____________________________| 
  */
+ 
+ /*
 const long c9Bias = 116;
 const long c11Bias = 131;
 const long c8Bias = 146;
@@ -66,6 +68,19 @@ const long c7Bias = 141;
 const long c17Bias = 158;
 const long c2Bias = 165;
 const long c12Bias = 162;
+*/
+
+//values without pressure sensors
+const long c9Bias = 105;
+const long c11Bias = 117;
+const long c8Bias = 128;
+const long c6Bias = 100;
+const long c10Bias = 125;
+const long c5Bias = 140;
+const long c7Bias = 130;
+const long c17Bias = 148;
+const long c2Bias = 149;
+const long c12Bias = 144;
 
 const long scaled = 1000;
 
@@ -250,7 +265,7 @@ void printAccel(int x)
   Serial1.print(accZ); 
 
   if(x == 1)  
-    Serial1.println();
+    Serial1.print("\n");
   else
     Serial1.print("\t");  
 }
