@@ -2,7 +2,7 @@ __author__ = 'timothyahong'
 import extract
 
 num_frequencies = 10
-num_test_per_mode = 3
+num_tests_per_mode = 3
 num_modes = 14
 
 
@@ -36,7 +36,7 @@ def _format_mode(state, mode_num, mode_data):
 def _format(state, unformatted_data_array):
     formatted_data = []
     for mode_num in range(num_modes):
-        mode_data = extract.mode(mode_num, unformatted_data_array)
+        mode_data = extract.mode(mode_num, num_tests_per_mode, unformatted_data_array)
         formatted_data += _format_mode(state, mode_num, mode_data)
     return formatted_data
 
