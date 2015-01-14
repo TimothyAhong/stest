@@ -1,5 +1,4 @@
 #include <CapacitiveSensor.h> //Capacitive sensing library http://playground.arduino.cc/Main/CapacitiveSensor?from=Main.CapSense
-#define aref_voltage 3.3 
 //The library was modified to reduce the amount of time between the high and low pulses from 10usec to 5usec
 //This allowed for less noise spikes to occur
 
@@ -29,19 +28,44 @@ const int aA16pin = A16;//accelerometer Y-axis on pin A16
 const int aA15pin = A15;//accelerometer Z-axis on pin A15
 
 const int indicator = 13; //indicator LED on pin 13 (built in) for program ON 
-//7,10,8,11,9
-const long c7Bias = 128;//1
-const long c8Bias = 177;//3
-const long c9Bias = 177;//5
-const long c10Bias = 150;//2
-const long c11Bias = 180;//4
 
-//6,5,17,2,12
-const long c12Bias = 166;//5
-const long c2Bias = 175;//4
-const long c5Bias = 168;//2
-const long c6Bias = 127;//1
-const long c17Bias = 173;//3
+//left female to top male connector and right female to bottom male connector
+//How the pad layout is with the appropriate pin attachment given the above pluggin was used
+/*   Left |  | |  | Right       
+ _________|__|_|__|__________
+ |            Top             |
+ |                            |
+ |                            |
+ |             9              |
+ |                            |
+ |            11              |
+ |                            |
+ |                            |
+ |                            |
+ |       8             6      |
+ |                            | 
+ |      10             5      |
+ |                            |
+ |       7            17      |
+ |                            |
+ |                            |
+ |             2              |
+ |                            |
+ |            12              |
+ |                            |
+ |          Bottom            |
+ |____________________________| 
+ */
+const long c9Bias = 116;
+const long c11Bias = 131;
+const long c8Bias = 146;
+const long c6Bias = 115;
+const long c10Bias = 141;
+const long c5Bias = 155;
+const long c7Bias = 141;
+const long c17Bias = 158;
+const long c2Bias = 165;
+const long c12Bias = 162;
 
 const long scaled = 1000;
 
@@ -143,12 +167,12 @@ void readCaps(int resolution,int input, int precision, int zero) //(resolution o
   c5 = cs_c5.capacitiveSensorRaw(resolution);
   c2 = cs_c2.capacitiveSensorRaw(resolution);
   c17 = cs_c17.capacitiveSensorRaw(resolution);
-  
+
   if(zero == 0)
     zero = 0;
   else
     zero = precision;  
-    
+
   if(input == 1)//call scaling down function based on input
   {
 
@@ -161,14 +185,12 @@ void readCaps(int resolution,int input, int precision, int zero) //(resolution o
 
 //routine to scale down raw sensor readings
 void hardcodeDown(int div,int zero) //(how much to divide sensor raw values by, what type of zeroing is it)
-{//7,10,8,11,9
+{ // to to bottom: 9,11,8(L),6(R),10(L),5(R),7(L),17(R),2,12
   c7 = c7/div;
   c10 = c10/div;  
   c8 = c8/div;
   c11 = c11/div;
   c9 = c9/div;
-
-  //6,5,17,2,12
   c6 = c6/div;
   c5 = c5/div;  
   c17 = c17/div;
@@ -181,7 +203,6 @@ void hardcodeDown(int div,int zero) //(how much to divide sensor raw values by, 
     c10 = c10 - floor(c10Bias/10);
     c11 = c11 - floor(c11Bias/10);
     c9 = c9 - floor(c9Bias/10);
-
     c6 = c6 - floor(c6Bias/10);
     c5 = c5 - floor(c5Bias/10);
     c17 = c17 - floor(c17Bias/10);
@@ -235,26 +256,13 @@ void printAccel(int x)
 }
 void printCapVals(int t)//function to print out capacitive sensor values
 {
-  //cap set 1
-  Serial1.print(c7);
-  Serial1.print("\t"); 
-  Serial1.print(c10); 
-  Serial1.print("\t");
-  Serial1.print(c8); 
-  Serial1.print("\t");
-  Serial1.print(c11); 
-  Serial1.print("\t");
-  Serial1.print(c9);
-  //cap set 2
-  Serial1.print("\t"); 
-  Serial1.print(c6); 
-  Serial1.print("\t");
-  Serial1.print(c5); 
-  Serial1.print("\t");
-  Serial1.print(c17); 
-  Serial1.print("\t");
-  Serial1.print(c2);
-  Serial1.print("\t");
+
+  Serial1.print(c9);  Serial1.print("\t"); 
+  Serial1.print(c11); Serial1.print("\t");
+  Serial1.print(c8);  Serial1.print("\t"); Serial1.print(c6);  Serial1.print("\t");
+  Serial1.print(c10); Serial1.print("\t"); Serial1.print(c5);  Serial1.print("\t");
+  Serial1.print(c7);  Serial1.print("\t"); Serial1.print(c17); Serial1.print("\t");
+  Serial1.print(c2);  Serial1.print("\t");
   Serial1.print(c12);
 
   if(t == 0) //bias to give new line or allow other printing on same line
@@ -286,6 +294,7 @@ void printPresVals(int t)//function to print out pressure sensor values
   else
     Serial1.println();
 }
+
 
 
 

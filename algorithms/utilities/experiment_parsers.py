@@ -1,6 +1,8 @@
 __author__ = 'timothyahong'
 import csv
 import os
+from regression.math_helpers import transpose
+from utilities.numbers import is_number
 
 
 #load the data directly from an experiment
@@ -25,8 +27,8 @@ def _load_parameters(folder_path):
     with open('{0}/parameters.csv'.format(folder_path), 'rU') as csvfile:
         csv_reader = csv.reader(csvfile, delimiter=',')
         for row in csv_reader:
-            #take the first colume as they key and the rest as the values
-            parameters[row[0]] = [el for el in row[1:] if el]
+            #take the first column as they key and the rest as the values
+            parameters[row[0].strip()] = [el for el in row[1:] if el]
     return parameters
 
 
@@ -47,15 +49,11 @@ def _load_file(folder_path, data_file_name):
             csv_reader = csv.reader(csvfile, delimiter=',')
             for row in csv_reader:
                 #ensure that every element is a digit, there are scenarios like csv headers where we want to skip
-                if all(el.isdigit() for el in row):
-                    row_first_file.append([int(el) for el in row])
+                if all(is_number(el) for el in row):
+                    row_first_file.append([float(el) for el in row])
     else:
         print("FILE {0} COULD NOT BE FOUND".format(file_path))
-    return _transpose(row_first_file)
-
-
-def _transpose(target_arr):
-    return zip(*target_arr)
+    return transpose(row_first_file)
 
 
 def _build_data_file_names(volumes):

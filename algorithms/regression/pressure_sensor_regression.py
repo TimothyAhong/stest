@@ -1,5 +1,5 @@
 __author__ = 'timothyahong'
-from extractors import extract_cap_values, extract_other_sensors
+from utilities.extractors import extract_cap_values, extract_other_sensors
 from post_process import print_results
 
 
