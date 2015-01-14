@@ -16,7 +16,8 @@ def _remove_title_row(test_data):
 
 
 def _format_row(state, mode_num, row):
-    pass
+    pre_array = [mode_num, state['person'], state['status']]
+    return pre_array + row
 
 
 def _format_test(state, mode_num, test_data):
@@ -28,14 +29,15 @@ def _format_test(state, mode_num, test_data):
 
 def _format_mode(state, mode_num, mode_data):
     formatted_mode_data = []
-    tests = extract.tests(mode_data)
+    tests = extract.tests_from_mode(mode_data)
     for test_data in tests:
         formatted_mode_data += _format_test(state, mode_num, test_data)
 
 
 def _format(state, unformatted_data_array):
     formatted_data = []
-    for mode_num in range(num_modes):
+    #we want to use index 1 for the mode number
+    for mode_num in range(1, num_modes+1):
         mode_data = extract.mode(mode_num, num_tests_per_mode, unformatted_data_array)
         formatted_data += _format_mode(state, mode_num, mode_data)
     return formatted_data
