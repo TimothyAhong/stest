@@ -1,2 +1,2 @@
 __author__ = 'timothyahong'
-from numbers import *
+from number_utils import *

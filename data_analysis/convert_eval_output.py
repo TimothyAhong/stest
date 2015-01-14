@@ -9,7 +9,9 @@ def run(data_path, formatted_filename, formatter):
 
 def format_data_files(data_path, formatted_filename, formatter):
     csv_filenames = csv_informer.get_csv_filenames_in(data_path)
-    csv_filenames.remove(formatted_filename)
+    if any(formatted_filename in s for s in csv_filenames):
+        csv_filenames.remove(formatted_filename)
+
     for csv_filename in csv_filenames:
         append_to_formatted_file(csv_filename, data_path, formatted_filename, formatter)
 

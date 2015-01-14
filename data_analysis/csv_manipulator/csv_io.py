@@ -1,6 +1,6 @@
 __author__ = 'timothyahong'
 import csv
-from numbers import is_number
+from utilities import is_number
 
 
 def create_formatted_file(filename, path):
