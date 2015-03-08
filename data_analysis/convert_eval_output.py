@@ -9,6 +9,8 @@ def run(data_path, formatted_filename, formatter):
 
 def format_data_files(data_path, formatted_filename, formatter):
     csv_filenames = csv_informer.get_csv_filenames_in(data_path)
+
+    #remove our formatted filename
     if any(formatted_filename in s for s in csv_filenames):
         csv_filenames.remove(formatted_filename)
 
